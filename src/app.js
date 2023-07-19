@@ -5,8 +5,8 @@ const app = express();
 app.use(express.json());
 
 const books = [
-  { id: 1, Title: "The Housemaid" },
-  { id: 2, Title: "Think Again" },
+  { id: 1, title: "The Housemaid" },
+  { id: 2, title: "Think Again" },
 ];
 
 app.get("/", (req, res) => {
@@ -22,10 +22,26 @@ app.post("/books", (req, res) => {
   res.status(201).send("Successfully registered book");
 });
 
-app.put("/books/:id", (req, res) => {});
-
 function searchBook(id) {
   return books.findIndex((book) => book.id == id);
 }
+
+app.put("/books/:id", (req, res) => {
+  let index = searchBook(req.params.id);
+  books[index].title = req.body.title;
+  res.json(books);
+});
+
+app.get("/books/:id", (req, res) => {
+  let index = searchBook(req.params.id);
+  res.json(books[index]);
+});
+
+app.delete("/books/:id", (req, res) => {
+  let { id } = req.params;
+  let index = searchBook(id);
+  books.splice(index, 1);
+  res.send(`Book ${id} removed successfully`);
+});
 
 export default app;
