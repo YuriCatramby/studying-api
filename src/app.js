@@ -31,10 +31,10 @@ routes(app);
 //   });
 // });
 
-app.post("/books", (req, res) => {
-  books.push(req.body);
-  res.status(201).send("Successfully registered book");
-});
+// app.post("/books", (req, res) => {
+//   books.push(req.body);
+//   res.status(201).send("Successfully registered book");
+// });
 
 function searchBook(id) {
   return books.findIndex((book) => book.id == id);
