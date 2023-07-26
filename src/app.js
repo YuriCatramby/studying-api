@@ -1,5 +1,7 @@
 import express from "express";
 import db from "./config/dbConnect.js";
+import books from "./models/Book.js";
+import routes from "./routes/index.js";
 
 db.on("error", console.log.bind(console, "Connection Error"));
 db.once("open", () => {
@@ -10,18 +12,24 @@ const app = express();
 
 app.use(express.json());
 
-const books = [
-  { id: 1, title: "The Housemaid" },
-  { id: 2, title: "Think Again" },
-];
+routes(app);
 
-app.get("/", (req, res) => {
-  res.status(200).send("Node Course");
-});
+// const books = [
+//   { id: 1, title: "The Housemaid" },
+//   { id: 2, title: "Think Again" },
+// ];
 
-app.get("/books", (req, res) => {
-  res.status(200).json(books);
-});
+// routes(app);
+
+// app.get("/", (req, res) => {
+//   res.status(200).send("Node Course");
+// });
+
+// app.get("/books", (req, res) => {
+//   books.find((err, books) => {
+//     res.status(200).json(books);
+//   });
+// });
 
 app.post("/books", (req, res) => {
   books.push(req.body);
