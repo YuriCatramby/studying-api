@@ -2,9 +2,12 @@ import books from "../models/Book.js";
 
 class BookController {
   static listBooks = (req, res) => {
-    books.find((err, books) => {
-      res.status(200).json(books);
-    });
+    books
+      .find()
+      .populate("author")
+      .exec((err, books) => {
+        res.status(200).json(books);
+      });
   };
 
   static listBooksById = (req, res) => {
@@ -53,6 +56,14 @@ class BookController {
       } else {
         res.status(500).send({ message: err.message });
       }
+    });
+  };
+
+  static listBooksBypublishingCompany = (req, res) => {
+    const publishingCompany = req.query.publishingCompany;
+
+    books.find({ publishingCompany: publishingCompany }, {}, (err, books) => {
+      res.status(200).send(books);
     });
   };
 }
